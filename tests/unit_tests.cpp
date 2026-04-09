@@ -1,4 +1,6 @@
+#include <climits>
 #include <cassert>
+
 #include "math_operations.h"
 
 void test_add() {
