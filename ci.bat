@@ -1,11 +1,16 @@
 @echo off
 
-mkdir build
+echo Create build folder
+if not exist build mkdir build
 cd build
 
+echo Run cmake
 cmake ..
-cmake --build .
 
-ctest --output-on-failure
-chmod +x ci.sh
-./ci.sh
+echo Build project
+cmake --build . --config Debug
+
+echo Run tests
+ctest -C Debug --output-on-failure
+
+pause
