@@ -1,6 +1,3 @@
-#ifndef MATH_OPERATIONS_H
-#define MATH_OPERATIONS_H
+#pragma once
 
 int add(int a, int b);
-
-#endif
