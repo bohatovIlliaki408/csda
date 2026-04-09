@@ -14,12 +14,12 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(googletest)
 
-add_executable(hello main.cpp)
-
 add_executable(unit_tests
     tests/unit_tests.cpp
     math_operations.cpp
 )
+
+target_include_directories(unit_tests PRIVATE ${CMAKE_SOURCE_DIR})
 
 target_link_libraries(unit_tests gtest gtest_main)
 
