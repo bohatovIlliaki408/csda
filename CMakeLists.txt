@@ -1,30 +1,16 @@
-cmake_minimum_required(VERSION 3.14)
+@echo off
 
-project(YourProjectName)
+echo Create build folder
+if not exist build mkdir build
+cd build
 
-# Enable testing
-enable_testing()
+echo Run cmake
+cmake ..
 
-# FetchContent to download Google Test
-include(FetchContent)
-FetchContent_Declare(
-    gtest
-    GIT_REPOSITORY https://github.com/google/googletest.git
-    GIT_TAG release-1.11.0  # You can change the tag or branch name as needed
-)
-FetchContent_MakeAvailable(gtest)
+echo Build project
+cmake --build . --config Debug
 
-# Create a test executable
-add_executable(tests test_main.cpp)  # Replace with your test file
+echo Run tests
+ctest -C Debug --output-on-failure
 
-# Link Google Test libraries
-target_link_libraries(tests gtest gtest_main)
-
-# Add tests discovery
-add_test(NAME TestYourTests COMMAND tests)  # Replace with the name of your tests
-
-# Instructions for running tests:
-# To build the tests, run:
-#     cmake --build .
-#     Then, run the tests using:
-#     ctest -C Debug  # Adjust configuration name if needed
+pause
