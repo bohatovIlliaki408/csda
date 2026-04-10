@@ -283,10 +283,12 @@ def main():
                 if not repo_name:
                     logging.warning(f"Empty repository for student: {student_name}")
 
-                logging.info("")
+                logging.info("") 
                 logging.info(f"Student: {student_name}")
                 logging.info(f"Group: {group}")
-                                
+                logging.info(f"Username: {git_user}")
+                logging.info(f"Repository: {repo_name}")
+                
                 if len(git_user) > 1 and len(repo_name) > 1:
                     status = check_repo(git_user, repo_name, student_name, group)
                     logging.info(f"{git_user}/{repo_name} -> {status}")
@@ -294,7 +296,7 @@ def main():
                 else:
                     status = "EMPTY"
                 
-                logging.debug(f"Row data -> user: {git_user}, repo: {repo_name}")
+                
 
 
                 
