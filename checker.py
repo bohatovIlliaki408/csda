@@ -132,7 +132,10 @@ def check_repo(username, repo_name, student_name, group):
 
         # --- 1. ОБРОБКА ПІП ---
         logging.info("Checking student name")
-
+        
+        if not student_name or student_name.strip() == "":
+            logging.warning("Student name is empty")
+            return "ERROR3 Name missing"
         name_parts = [p.strip().lower() for p in student_name.split() if p.strip()]
         
         found_parts = []
@@ -161,20 +164,12 @@ def check_repo(username, repo_name, student_name, group):
         else:
             logging.info(f"Extracted group digits: {group_digits}")
 
-        # Шукаємо різний формат групи 
-        group_patterns = [
-            group_digits,                     # 408
-            f"-{group_digits}",               # -408
-            f" {group_digits}",               # " 408"
-        ]
-
+        # Шукаємо номер групи 
         group_found = False
-
-        for pattern in group_patterns:
-            if pattern and pattern in content_lower:
-                group_found = True
-                logging.info(f"Group pattern matched: {pattern}")
-                break
+        
+        if group_digits and re.search(rf"\D?{group_digits}\b", content_lower):
+            group_found = True
+            logging.info(f"Group matched via regex: {group_digits}")
 
         if not group_found:
             logging.warning(f"Group not found in README: {group}")
@@ -268,6 +263,7 @@ def main():
             rows_to_write = []
 
             group_col = find_column_by_keyword(fieldnames, ['group', 'груп'])
+            logging.info(f"Selected group column: {group_col}")
             
             for row in reader:
                 git_user = str(row.get(git_col, '') or '').strip()
@@ -279,22 +275,30 @@ def main():
                 student_name = f"{surname} {name} {father}".strip()
             
                 group = str(row.get(group_col, "") or "").strip() if group_col else ""
-            
-                logging.info(f"Student: {student_name}")
-                logging.info(f"Group: {group}")
-            
+                        
                 if not group:
                     logging.warning("Group is empty for this student")       
-                    
-                logging.debug(f"Row data -> user: {git_user}, repo: {repo_name}")
+                
+                if not git_user:
+                    logging.warning(f"Empty Git username for student: {student_name}")
+                
+                if not repo_name:
+                    logging.warning(f"Empty repository for student: {student_name}")
 
-                status = "EMPTY"
-
+                logging.info(f"Student: {student_name}")
+                logging.info(f"Group: {group}")
+                                
                 if len(git_user) > 1 and len(repo_name) > 1:
                     status = check_repo(git_user, repo_name, student_name, group)
                     logging.info(f"{git_user}/{repo_name} -> {status}")
                     logging.info("")
+                else:
+                    status = "EMPTY"
+                
+                logging.debug(f"Row data -> user: {git_user}, repo: {repo_name}")
 
+
+                
                 row['Status'] = status
                 rows_to_write.append(row)
 
