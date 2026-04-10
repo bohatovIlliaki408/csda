@@ -1,0 +1,27 @@
+name: Check Repos
+
+on:
+  push:
+    paths:
+      - 'input/**'       # Запуск при зміні файлів
+  workflow_dispatch:     # Кнопка ручного запуску
+
+permissions:
+  contents: write
+
+jobs:
+  run-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - run: pip install requests
+      - run: python checker.py
+      - run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git add output/
+          git commit -m "Results Updated" || echo "Nothing to commit"
+          git push
