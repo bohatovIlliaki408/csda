@@ -1,26 +1,26 @@
 Варіант,Прізвище,Ім'я,По-батькові,телефон,НУЛП емейл,git name,repo name,group,Status
 1,Богатов,Ілля,Сергійович,,illia.bohatov.ki.2022@lpnu.ua,bohatovIlliaki408,csda,408,OK
-2,Боряк ,Володимир,Володимирович,(096)1500594,volodymyr.boriak.ki.2022@lpnu.ua,,,,EMPTY
-3,Бохонок,Олеся,Петрівна,(096)8617383,olesia.bokhonok.ki.2022@lpnu.ua,,,,EMPTY
-4,Данилишин,Данило,Тарасович,,danylo.danylyshyn.ki.2022@lpnu.ua,,,,EMPTY
-5,Дзюрман,Павло,Осипович,(098)1711961,pavlo.dziurman.ki.2022@lpnu.ua,,,,EMPTY
-6,Дідик ,Остап,Миколайович,(066)3465927,ostap.didyk.ki.2022@lpnu.ua,,,,EMPTY
-7,Коноваленко ,Владислав,Романович,(050)2658959,vladyslav.konovalenko.ki.2022@lpnu.ua,,,,EMPTY
-8,Крук,Віталій,Володимирович,(067)7817982,vitalii.kruk.ki.2022@lpnu.ua,,,,EMPTY
-9,Кузняк,Михайло,Романович,,mykhailo.kuzniak.ki.2022@lpnu.ua,,,,EMPTY
-10,Лось,Владислав,Романович,,vladyslav.los.ki.2022@lpnu.ua,,,,EMPTY
-11,Мірошниченко,Катерина,Валеріївна,,kateryna.miroshnychenko.ki.2022@lpnu.ua,,,,EMPTY
-12,Моспан,Андрій,Михайлович,(066)2869796,andrii.mospan.ki.2022@lpnu.ua,,,,EMPTY
-13,Оленич ,Ілля,Миколайович,(096)6823118,illia.olenych.ki.2022@lpnu.ua,,,,EMPTY
-14,Паньків,Анна,Михайлівна,(068)2889790,anna.pankiv.ki.2022@lpnu.ua,,,,EMPTY
-15,Поліщук,Василь,Васильович,,vasyl.polishchuk.ki.2022@lpnu.ua,,,,EMPTY
-16,Продан,Катерина,Олегівна,(067)5835366,kateryna.prodan.ki.2022@lpnu.ua,,,,EMPTY
-17,Савка,Ярослав,Русланович,(093)4850398,yaroslav.savka.ki.2022@lpnu.ua,,,,EMPTY
-18,Фабін ,Максим,Романович,(067)8656299,maksym.fabin.ki.2021@lpnu.ua,,,,EMPTY
-19,Фуревич,Андрій,Миколайович,,академка,,,,EMPTY
-20,Худьо,Владислав,Володимирович,,vladyslav.khudo.ki.2022@lpnu.ua,,,,EMPTY
-21,Чорненька,Софія,Назарівна,(068)4638845,sofiia.chornenka.ki.2022@lpnu.ua,,,,EMPTY
-22,Яконюк,Назар,Олександрович,(050)8881578,nazar.yakoniuk.ki.2022@lpnu.ua,,,,EMPTY
+2,Боряк ,Володимир,Володимирович,(096)1500594,volodymyr.boriak.ki.2022@lpnu.ua,,,408,EMPTY
+3,Бохонок,Олеся,Петрівна,(096)8617383,olesia.bokhonok.ki.2022@lpnu.ua,,,408,EMPTY
+4,Данилишин,Данило,Тарасович,,danylo.danylyshyn.ki.2022@lpnu.ua,,,408,EMPTY
+5,Дзюрман,Павло,Осипович,(098)1711961,pavlo.dziurman.ki.2022@lpnu.ua,,,408,EMPTY
+6,Дідик ,Остап,Миколайович,(066)3465927,ostap.didyk.ki.2022@lpnu.ua,,,408,EMPTY
+7,Коноваленко ,Владислав,Романович,(050)2658959,vladyslav.konovalenko.ki.2022@lpnu.ua,,,408,EMPTY
+8,Крук,Віталій,Володимирович,(067)7817982,vitalii.kruk.ki.2022@lpnu.ua,,,408,EMPTY
+9,Кузняк,Михайло,Романович,,mykhailo.kuzniak.ki.2022@lpnu.ua,,,408,EMPTY
+10,Лось,Владислав,Романович,,vladyslav.los.ki.2022@lpnu.ua,,,408,EMPTY
+11,Мірошниченко,Катерина,Валеріївна,,kateryna.miroshnychenko.ki.2022@lpnu.ua,,,408,EMPTY
+12,Моспан,Андрій,Михайлович,(066)2869796,andrii.mospan.ki.2022@lpnu.ua,,,408,EMPTY
+13,Оленич ,Ілля,Миколайович,(096)6823118,illia.olenych.ki.2022@lpnu.ua,,,408,EMPTY
+14,Паньків,Анна,Михайлівна,(068)2889790,anna.pankiv.ki.2022@lpnu.ua,,,408,EMPTY
+15,Поліщук,Василь,Васильович,,vasyl.polishchuk.ki.2022@lpnu.ua,,,408,EMPTY
+16,Продан,Катерина,Олегівна,(067)5835366,kateryna.prodan.ki.2022@lpnu.ua,,,408,EMPTY
+17,Савка,Ярослав,Русланович,(093)4850398,yaroslav.savka.ki.2022@lpnu.ua,,,408,EMPTY
+18,Фабін ,Максим,Романович,(067)8656299,maksym.fabin.ki.2021@lpnu.ua,,,408,EMPTY
+19,Фуревич,Андрій,Миколайович,,академка,,,408,EMPTY
+20,Худьо,Владислав,Володимирович,,vladyslav.khudo.ki.2022@lpnu.ua,,,408,EMPTY
+21,Чорненька,Софія,Назарівна,(068)4638845,sofiia.chornenka.ki.2022@lpnu.ua,,,408,EMPTY
+22,Яконюк,Назар,Олександрович,(050)8881578,nazar.yakoniuk.ki.2022@lpnu.ua,,,408,EMPTY
 23,,,,,,,,,EMPTY
 24,,,,,,,,,EMPTY
 25,,,,,,,,,EMPTY
