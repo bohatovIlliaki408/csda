@@ -283,6 +283,7 @@ def main():
                 if not repo_name:
                     logging.warning(f"Empty repository for student: {student_name}")
 
+                logging.info("")
                 logging.info(f"Student: {student_name}")
                 logging.info(f"Group: {group}")
                                 
