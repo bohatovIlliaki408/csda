@@ -56,7 +56,7 @@ def extract_group_from_filename(filename):
     logging.warning("No group number found in filename")
     return None
 
-def check_repo(username, repo_name):
+def check_repo(username, repo_name, student_name, group):
     if not username or not repo_name:        #checking empty name and repo
         logging.warning("Empty username or repo name")
         return "EMPTY"
@@ -91,8 +91,59 @@ def check_repo(username, repo_name):
         if not RMmdCheck:
             logging.warning("README.md not found")
             return "ERROR2 No README.md"
-        
+                #getting readme
 
+        logging.info("[STEP] Fetching README.md content")
+
+        readme_file = next(
+            (item for item in files if item.get("name", "").lower() == "readme.md"),
+            None
+        )
+
+        if not readme_file:
+            logging.error("[END] README object not found (unexpected)")
+            return "ERROR2 No README.md"
+        
+        readme_url = readme_file.get("url")
+        
+        readme_response = check_url(readme_url)
+        
+        if readme_response == 'FAIL':
+            logging.error("[END] Failed to fetch README content")
+            return "ERROR"
+        #decoding readme
+        readme_data = readme_response.json()
+
+        content_base64 = readme_data.get("content", "")
+        
+        try:
+            decoded_content = base64.b64decode(content_base64).decode('utf-8')
+            logging.info("[OK] README decoded successfully")
+        except Exception as e:
+            logging.error(f"[FAIL] README decode error: {e}")
+            return "ERROR"
+            
+        #Checking name
+        logging.info("[STEP] Validating README against student data")
+        content_lower = decoded_content.lower()
+
+        name_parts = student_name.lower().split()
+
+        name_found = all(part in content_lower for part in name_parts)
+        
+        if not name_found:
+            logging.warning(f"[FAIL] Student name not found in README: {student_name}")
+            return "ERROR3 Name mismatch"
+        
+        logging.info("[OK] Student name found")
+
+        #Checking group
+        if str(group) not in content_lower:
+            logging.warning(f"[FAIL] Group not found in README: {group}")
+            return "ERROR4 Group mismatch"
+        
+        logging.info("[OK] Group found")
+        
         #check passed
         logging.info("Repository check passed")
         return "OK"
@@ -182,13 +233,15 @@ def main():
             for row in reader:
                 git_user = str(row.get(git_col, '') or '').strip()
                 repo_name = str(row.get(repo_col, '') or '').strip()
-
+                student_name = row.get("Name")
+                group = repo_col #CHANGE IT - MOGE NE RABOTAT
+                
                 logging.debug(f"Row data -> user: {git_user}, repo: {repo_name}")
 
                 status = "EMPTY"
 
                 if len(git_user) > 1 and len(repo_name) > 1:
-                    status = check_repo(git_user, repo_name)
+                    status = check_repo(git_user, repo_name, student_name, group)
                     logging.info(f"{git_user}/{repo_name} -> {status}")
 
                 row['Status'] = status
