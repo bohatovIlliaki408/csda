@@ -274,11 +274,12 @@ def main():
             
                 group = str(row.get(group_col, "") or "").strip() if group_col else ""
 
-                logging.info("") 
+
                 
                 if not student_name:
                     logging.warning(f"This students name is EMPTY on row: {i}")
                 else:
+                    logging.info("") 
                     logging.info(f"Student: {student_name}")
                     if not group:
                         logging.warning("Group is empty for this student")
