@@ -266,13 +266,26 @@ def main():
               # Додаємо статус
             new_fieldnames = fieldnames + ['Status']
             rows_to_write = []
+
+            group_col = find_column_by_keyword(fieldnames, ['group', 'груп'])
             
             for row in reader:
                 git_user = str(row.get(git_col, '') or '').strip()
                 repo_name = str(row.get(repo_col, '') or '').strip()
-                student_name = row.get("Name")
-                group = repo_col #CHANGE IT - MOGE NE RABOTAT
-                
+            
+                surname = str(row.get("Прізвище", "") or "").strip()
+                name = str(row.get("Ім'я", "") or "").strip()
+                father = str(row.get("По-батькові", "") or "").strip()
+                student_name = f"{surname} {name} {father}".strip()
+            
+                group = str(row.get(group_col, "") or "").strip() if group_col else ""
+            
+                logging.info(f"[DEBUG] Student: {student_name}")
+                logging.info(f"[DEBUG] Group: {group}")
+            
+                if not group:
+                    logging.warning("[WARN] Group is empty for this student")       
+                    
                 logging.debug(f"Row data -> user: {git_user}, repo: {repo_name}")
 
                 status = "EMPTY"
