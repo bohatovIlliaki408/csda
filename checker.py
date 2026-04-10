@@ -299,7 +299,7 @@ def main():
                 
                 if len(git_user) > 1 and len(repo_name) > 1:
                     status = check_repo(git_user, repo_name, student_name, group)
-                    logging.debug(f"{git_user}/{repo_name} -> {status}")
+                    logging.info(f"STATUS: {git_user}/{repo_name} -> {status}")
                     logging.info("")
                 else:
                     status = "EMPTY"
