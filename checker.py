@@ -175,8 +175,6 @@ def check_repo(username, repo_name, student_name, group):
             logging.warning(f"Group not found in README: {group}")
             return "ERROR4 Group mismatch"
 
-        logging.info("Group matched")
-
         # --- УСПІХ ---
         logging.info("Repository check passed")
         return "OK"
