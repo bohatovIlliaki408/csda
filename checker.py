@@ -3,11 +3,23 @@ import requests
 import os
 import re  # Додали бібліотеку для пошуку цифр у назві файлу
 import logging 
+import base64
 
 logging.basicConfig(
     level=logging.INFO,  
     format='%(asctime)s [%(levelname)s] %(message)s'
 )
+
+def log_block(title):
+    logging.info("")
+    logging.info("=" * 60)
+    logging.info(f"🔷 {title}")
+    logging.info("=" * 60)
+
+def log_subblock(title):
+    logging.info("-" * 40)
+    logging.info(f"➡️ {title}")
+    logging.info("-" * 40)
 
 # --- НАЛАШТУВАННЯ ---
 INPUT_DIR = 'input'
@@ -45,7 +57,7 @@ def extract_group_from_filename(filename):
     return None
 
 def check_repo(username, repo_name):
-    if not username or not repo_name:
+    if not username or not repo_name:        #checking empty name and repo
         logging.warning("Empty username or repo name")
         return "EMPTY"
 
@@ -53,9 +65,9 @@ def check_repo(username, repo_name):
     url = f"https://github.com/{username}/{repo_name}"
 
     try:
-        logging.info(f"Checking repository: {url}")
+        log_block(f"CHECK REPO: {username}/{repo_name}")
 
-        response = check_url(url)
+        response = check_url(url)            #checking repo
         if response == 'FAIL':
             logging.error(f"Repository not found: {url}")
             return "ERROR1 Repo Not Found"
@@ -79,7 +91,9 @@ def check_repo(username, repo_name):
         if not RMmdCheck:
             logging.warning("README.md not found")
             return "ERROR2 No README.md"
+        
 
+        #check passed
         logging.info("Repository check passed")
         return "OK"
 
@@ -105,21 +119,28 @@ def check_url(url):
         return 'FAIL'
     
 def main():
-    logging.info("=== STARTING CHECKER ===")
+    log_block("START CHECKER")
 
+    log_subblock("Checking directories")
+    
     if not os.path.exists(OUTPUT_DIR):
-        logging.info("Output directory not found. Creating...")
+        logging.info("[ACTION] Creating output directory")
         os.makedirs(OUTPUT_DIR)
-
+    
     if not os.path.exists(INPUT_DIR):
-        logging.error("Input directory not found!")
+        logging.error("[FAIL] Input directory not found")
         return
+    
+    logging.info("[OK] Directories ready")
 
+    log_subblock("Searching CSV files")
+    
     csv_files = [f for f in os.listdir(INPUT_DIR) if f.endswith('.csv')]
-    logging.info(f"Found {len(csv_files)} CSV files")
+    
+    logging.info(f"[OK] Found {len(csv_files)} CSV files")
     
     for filename in csv_files:
-        logging.info(f"Processing file: {filename}")
+        log_block(f"PROCESSING FILE: {filename}")
         input_path = os.path.join(INPUT_DIR, filename)
         output_path = os.path.join(OUTPUT_DIR, filename)
         
@@ -134,8 +155,8 @@ def main():
       
 
     
-               # Ідеальний варіант: знайшли "401" у назві файлу і така колонка є
-                 # Запасний варіант: якщо файл названий криво, шукаємо слово 'repo'            
+               
+                     
             git_col = find_column_by_keyword(fieldnames, ['git name', 'git', 'github'])
            # 1. Шукаємо колонку Git Name (як і раніше) 
             group_number = extract_group_from_filename(filename)
@@ -144,10 +165,11 @@ def main():
             if group_number and group_number in fieldnames:
                 repo_col = group_number
                 logging.info(f"Using group column: {group_number}")
+                # Ідеальний варіант: знайшли "401" у назві файлу і така колонка є
             else:
                 logging.warning(f"Group column '{group_number}' not found. Trying fallback...")
                 repo_col = find_column_by_keyword(fieldnames, ['repo', 'repository'])
-
+                  # Запасний варіант: якщо файл названий криво, шукаємо слово 'repo'  
             logging.info(f"Selected columns -> Git: {git_col}, Repo: {repo_col}")
             
             if not repo_col:
@@ -179,8 +201,8 @@ def main():
             writer.writeheader()
             writer.writerows(rows_to_write)
 
-        logging.info(f"Finished processing file: {filename}")
-    logging.info("=== CHECKER FINISHED ===")
+        log_block(f"FINISHED FILE: {filename}")
+    log_block("END CHECKER")
 main()
     
  
