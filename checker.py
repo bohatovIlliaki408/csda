@@ -123,31 +123,68 @@ def check_repo(username, repo_name, student_name, group):
             logging.error(f"[FAIL] README decode error: {e}")
             return "ERROR"
             
-        #Checking name
-        logging.info("[STEP] Validating README against student data")
+        # ===============================
+        #         README VALIDATION
+        # ===============================
+        logging.info("[STEP] Advanced validation of README")
+
         content_lower = decoded_content.lower()
 
-        name_parts = student_name.lower().split()
+        # --- 1. ОБРОБКА ПІП ---
+        logging.info("[STEP] Checking student name (flexible match)")
 
-        name_found = all(part in content_lower for part in name_parts)
+        name_parts = [p.strip().lower() for p in student_name.split() if p.strip()]
         
-        if not name_found:
-            logging.warning(f"[FAIL] Student name not found in README: {student_name}")
+        found_parts = []
+        for part in name_parts:
+            if part in content_lower:
+                found_parts.append(part)
+
+        logging.info(f"[DEBUG] Name parts found: {found_parts}")
+
+        # Мінімум 2 слова з 3 повинні знайтись
+        if len(found_parts) < 2:
+            logging.warning(f"[FAIL] Not enough name parts found in README: {student_name}")
             return "ERROR3 Name mismatch"
-        
-        logging.info("[OK] Student name found")
 
-        #Checking group
-        if str(group) not in content_lower:
+        logging.info("[OK] Student name matched (flexible)")
+
+        # --- 2. ОБРОБКА ГРУПИ ---
+        logging.info("[STEP] Checking group (flexible match)")
+
+        # Витягуємо тільки цифри з групи 
+        group_digits_match = re.search(r'\d+', str(group))
+        group_digits = group_digits_match.group() if group_digits_match else None
+
+        if not group_digits:
+            logging.warning(f"[WARN] Could not extract digits from group: {group}")
+        else:
+            logging.info(f"[DEBUG] Extracted group digits: {group_digits}")
+
+        # Шукаємо різний формат групи 
+        group_patterns = [
+            group_digits,                     # 408
+            f"-{group_digits}",               # -408
+            f" {group_digits}",               # " 408"
+        ]
+
+        group_found = False
+
+        for pattern in group_patterns:
+            if pattern and pattern in content_lower:
+                group_found = True
+                logging.info(f"[DEBUG] Group pattern matched: {pattern}")
+                break
+
+        if not group_found:
             logging.warning(f"[FAIL] Group not found in README: {group}")
             return "ERROR4 Group mismatch"
-        
-        logging.info("[OK] Group found")
-        
-        #check passed
+
+        logging.info("[OK] Group matched")
+
+        # --- УСПІХ ---
         logging.info("Repository check passed")
         return "OK"
-
     except Exception as e:
         logging.exception(f"Unexpected error while checking repo: {e}")
         return "ERROR"
