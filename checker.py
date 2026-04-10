@@ -180,6 +180,7 @@ def main():
             writer.writerows(rows_to_write)
 
         logging.info(f"Finished processing file: {filename}")
-main()
     logging.info("=== CHECKER FINISHED ===")
+main()
+    
  
