@@ -263,7 +263,7 @@ def main():
             group_col = find_column_by_keyword(fieldnames, ['group', 'груп'])
             logging.info(f"Selected group column: {group_col}")
             
-            for row in reader:
+            for i, row in enumerate(reader, start=2):
                 git_user = str(row.get(git_col, '') or '').strip()
                 repo_name = str(row.get(repo_col, '') or '').strip()
             
@@ -273,21 +273,28 @@ def main():
                 student_name = f"{surname} {name} {father}".strip()
             
                 group = str(row.get(group_col, "") or "").strip() if group_col else ""
-                        
-                if not group:
-                    logging.warning("Group is empty for this student")       
-                
-                if not git_user:
-                    logging.warning(f"Empty Git username for student: {student_name}")
-                
-                if not repo_name:
-                    logging.warning(f"Empty repository for student: {student_name}")
 
                 logging.info("") 
-                logging.info(f"Student: {student_name}")
-                logging.info(f"Group: {group}")
-                logging.info(f"Username: {git_user}")
-                logging.info(f"Repository: {repo_name}")
+                
+                if not student_name:
+                    logging.warning(f"This students name is EMPTY on row: {i}")
+                else:
+                    logging.info(f"Student: {student_name}")
+                    if not group:
+                        logging.warning("Group is empty for this student")
+                    else:
+                        logging.info(f"Group: {group}")
+                    
+                    if not git_user:
+                        logging.warning(f"Empty Git username for this student")
+                    else:
+                        logging.info(f"Username: {git_user}")
+                    
+                    if not repo_name:
+                        logging.warning(f"Empty repository for this student")
+                    else:
+                        logging.info(f"Repository: {repo_name}")
+                        
                 
                 if len(git_user) > 1 and len(repo_name) > 1:
                     status = check_repo(git_user, repo_name, student_name, group)
