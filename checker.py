@@ -93,7 +93,7 @@ def check_repo(username, repo_name, student_name, group):
             return "ERROR2 No README.md"
                 #getting readme
 
-        logging.info("[STEP] Fetching README.md content")
+        logging.info("Fetching README.md content")
 
         readme_file = next(
             (item for item in files if item.get("name", "").lower() == "readme.md"),
@@ -101,7 +101,7 @@ def check_repo(username, repo_name, student_name, group):
         )
 
         if not readme_file:
-            logging.error("[END] README object not found (unexpected)")
+            logging.error("README object not found (unexpected)")
             return "ERROR2 No README.md"
         
         readme_url = readme_file.get("url")
@@ -109,7 +109,7 @@ def check_repo(username, repo_name, student_name, group):
         readme_response = check_url(readme_url)
         
         if readme_response == 'FAIL':
-            logging.error("[END] Failed to fetch README content")
+            logging.error("Failed to fetch README content")
             return "ERROR"
         #decoding readme
         readme_data = readme_response.json()
@@ -118,20 +118,20 @@ def check_repo(username, repo_name, student_name, group):
         
         try:
             decoded_content = base64.b64decode(content_base64).decode('utf-8')
-            logging.info("[OK] README decoded successfully")
+            logging.info("README decoded successfully")
         except Exception as e:
-            logging.error(f"[FAIL] README decode error: {e}")
+            logging.error(f"README decode error: {e}")
             return "ERROR"
             
         # ===============================
         #         README VALIDATION
         # ===============================
-        logging.info("[STEP] Advanced validation of README")
+        logging.info("Advanced validation of README")
 
         content_lower = decoded_content.lower()
 
         # --- 1. ОБРОБКА ПІП ---
-        logging.info("[STEP] Checking student name (flexible match)")
+        logging.info("Checking student name")
 
         name_parts = [p.strip().lower() for p in student_name.split() if p.strip()]
         
@@ -140,26 +140,26 @@ def check_repo(username, repo_name, student_name, group):
             if part in content_lower:
                 found_parts.append(part)
 
-        logging.info(f"[DEBUG] Name parts found: {found_parts}")
+        logging.info(f"Name parts found: {found_parts}")
 
         # Мінімум 2 слова з 3 повинні знайтись
         if len(found_parts) < 2:
-            logging.warning(f"[FAIL] Not enough name parts found in README: {student_name}")
+            logging.warning(f"Not enough name parts found in README: {student_name}")
             return "ERROR3 Name mismatch"
 
-        logging.info("[OK] Student name matched (flexible)")
+        logging.info("Student name matched")
 
         # --- 2. ОБРОБКА ГРУПИ ---
-        logging.info("[STEP] Checking group (flexible match)")
+        logging.info("Checking group")
 
         # Витягуємо тільки цифри з групи 
         group_digits_match = re.search(r'\d+', str(group))
         group_digits = group_digits_match.group() if group_digits_match else None
 
         if not group_digits:
-            logging.warning(f"[WARN] Could not extract digits from group: {group}")
+            logging.warning(f"Could not extract digits from group: {group}")
         else:
-            logging.info(f"[DEBUG] Extracted group digits: {group_digits}")
+            logging.info(f"Extracted group digits: {group_digits}")
 
         # Шукаємо різний формат групи 
         group_patterns = [
@@ -173,14 +173,14 @@ def check_repo(username, repo_name, student_name, group):
         for pattern in group_patterns:
             if pattern and pattern in content_lower:
                 group_found = True
-                logging.info(f"[DEBUG] Group pattern matched: {pattern}")
+                logging.info(f"Group pattern matched: {pattern}")
                 break
 
         if not group_found:
-            logging.warning(f"[FAIL] Group not found in README: {group}")
+            logging.warning(f"Group not found in README: {group}")
             return "ERROR4 Group mismatch"
 
-        logging.info("[OK] Group matched")
+        logging.info("Group matched")
 
         # --- УСПІХ ---
         logging.info("Repository check passed")
@@ -216,16 +216,16 @@ def main():
         os.makedirs(OUTPUT_DIR)
     
     if not os.path.exists(INPUT_DIR):
-        logging.error("[FAIL] Input directory not found")
+        logging.error("Input directory not found")
         return
     
-    logging.info("[OK] Directories ready")
+    logging.info("Directories ready")
 
     log_subblock("Searching CSV files")
     
     csv_files = [f for f in os.listdir(INPUT_DIR) if f.endswith('.csv')]
     
-    logging.info(f"[OK] Found {len(csv_files)} CSV files")
+    logging.info(f"Found {len(csv_files)} CSV files")
     
     for filename in csv_files:
         log_block(f"PROCESSING FILE: {filename}")
@@ -280,11 +280,11 @@ def main():
             
                 group = str(row.get(group_col, "") or "").strip() if group_col else ""
             
-                logging.info(f"[DEBUG] Student: {student_name}")
-                logging.info(f"[DEBUG] Group: {group}")
+                logging.info(f"Student: {student_name}")
+                logging.info(f"Group: {group}")
             
                 if not group:
-                    logging.warning("[WARN] Group is empty for this student")       
+                    logging.warning("Group is empty for this student")       
                     
                 logging.debug(f"Row data -> user: {git_user}, repo: {repo_name}")
 
@@ -293,6 +293,7 @@ def main():
                 if len(git_user) > 1 and len(repo_name) > 1:
                     status = check_repo(git_user, repo_name, student_name, group)
                     logging.info(f"{git_user}/{repo_name} -> {status}")
+                    logging.info("")
 
                 row['Status'] = status
                 rows_to_write.append(row)
