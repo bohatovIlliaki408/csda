@@ -142,10 +142,13 @@ def check_repo(username, repo_name, student_name, group):
         for part in name_parts:
             if part in content_lower:
                 found_parts.append(part)
-
+                
+        logging.debug(f"Name parts from table: {name_parts}")
         logging.info(f"Name parts found: {found_parts}")
 
         # всі слова повинні бути
+        logging.debug(f"found_parts = {found_parts}")
+        logging.debug(f"name_parts = {name_parts}")
         if len(found_parts) != len(name_parts):
             logging.warning(f"Not all name parts found: {student_name}")
             return "ERROR3 Name mismatch"
