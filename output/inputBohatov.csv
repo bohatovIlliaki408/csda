@@ -1,5 +1,5 @@
 Варіант,Прізвище,Ім'я,По-батькові,телефон,НУЛП емейл,git name,repo name,group,Status
-1,Богатов,Ілля,Сергійович,,illia.bohatov.ki.2022@lpnu.ua,bohatovIlliaki408,csda,408,OK
+1,Богатов,Ілля,Сергійович,,illia.bohatov.ki.2022@lpnu.ua,bohatovIlliaki408,csda,408,ERROR3 Name mismatch
 2,Боряк ,Володимир,Володимирович,(096)1500594,volodymyr.boriak.ki.2022@lpnu.ua,,408csda2,408,EMPTY
 3,Бохонок,Олеся,Петрівна,(096)8617383,olesia.bokhonok.ki.2022@lpnu.ua,,408csda3,408,EMPTY
 4,Данилишин,Данило,Тарасович,,danylo.danylyshyn.ki.2022@lpnu.ua,,408csda4,408,EMPTY
